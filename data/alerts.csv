@@ -286,3 +286,4 @@ CPU usage by threads in a container is running over an average of more than 50% 
 "API gateway down, all services unreachable",P1
 "Multiple services down, complete outage",P1
 "Database replica lag above 60 seconds",P2
+"Load balancer health check failing on prod",P1
