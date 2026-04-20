@@ -1,0 +1,288 @@
+alert_text,severity
+"Database is down, all connections refused",P1
+"payments-api pod crashlooping, 0 healthy replicas",P1
+"Disk at 99% on production database, writes failing",P1
+"SSL certificate expired, all HTTPS traffic failing",P1
+"Redis cluster down, session data unavailable",P1
+"Production deployment failed, rollback in progress",P1
+"Network partition detected, pods cannot communicate",P1
+"Data corruption detected in payments database",P1
+"auth-service down, users cannot login",P1
+"HighMemoryUsage on payments-api, memory at 95%, OOMKilled",P2
+"DiskFull on logging server, disk at 88%",P2
+"API response time above 2s for last 10 minutes",P2
+"Replication lag on database replica above 30s",P2
+"Multiple pods restarting on auth-service",P2
+"Memory leak detected in payment processor worker",P2
+"Queue depth growing, consumers falling behind",P2
+"Error rate above 5% on checkout-service",P2
+"CPU throttling on payments-api, processing slow",P2
+"Certificate expires in 3 days on api.payments.com",P2
+"HighCPU on auth-service, CPU at 60%",P3
+"Memory usage at 70% on payments-api",P3
+"Disk at 65% on application server",P3
+"API response time slightly elevated at 800ms",P3
+"Minor increase in error rate, below 1%",P3
+"Non-critical cronjob failed, will retry",P3
+"Log volume increasing on auth-service",P3
+"Single pod restart on frontend-service",P3
+"Cache hit rate dropped to 85%",P3
+"Deployment taking longer than usual",P3
+"Health check flapping on secondary instance",P3
+"Error monitoring database: ""primary_db"" unavailable due to unexpected crash.",P1
+High-availability endpoint is currently non-responsive.,P1
+Critical services API gateway has reached 50% packet loss within 5 minutes.,P1
+The application has started experiencing excessive memory usage (90%).,P1
+Data processing pipeline has stopped accepting new tasks due to resource exhaustion.,P1
+Primary DNS server for the service is offline and cannot be reached.,P1
+"Service account ""admin_user"" password reset notifications are failing.",P1
+API proxy connection timed out multiple times in the last hour.,P1
+Error rate has spiked significantly for internal routing microservice.,P1
+Memory monitoring shows 1 GB of RAM used by an unknown process in container A.,P1
+The status API is providing incorrect data due to data mismatch with other servers.,P1
+Database writes are failing due to network issues detected on write port.,P1
+"API call queue exceeded maximum size limit, impacting performance severely.",P1
+"Critical error ""ORA-12514"" reported for Oracle database server B.",P1
+Data transfer to cloud storage S3 has been delayed for 4 consecutive hours.,P1
+Primary SMTP service is returning a 'connection timeout' response.,P1
+Memory allocation in pod C reached 100% saturation within one hour.,P1
+Critical network traffic alert raised by firewall 'FW-01' due to packet sniffing signatures.,P1
+Instance monitoring indicates the CPU usage of host B exceeded safe thresholds.,P1
+"Network connectivity lost for backup database, cannot recover current status.",P1
+Application gateway experiencing 4xx errors at a rate exceeding 5%.,P1
+Error while authenticating users with OpenID connect has significantly increased.,P1
+A large number of users are not able to sign in to application A due to login failure spike.,P1
+Critical alert raised indicating host security vulnerabilities on several hosts.,P1
+Scheduled database dump for primary_db failed three consecutive times.,P1
+Network latency exceeds threshold to nearby regional availability zones.,P1
+"Memory leak detected, impacting production usage heavily since two days ago.",P1
+A database's tablespace disk usage has increased beyond recommended levels.,P1
+Data validation checks are failing and requiring data correction after updates.,P1
+API proxy has returned a significant amount of 504 Gateway Timeout responses.,P1
+Scheduled job for backup database restore failed due to insufficient resources.,P1
+Network traffic from '192.168.0.X' is blocking other hosts' connections on port Z.,P1
+"Application cannot connect through port number B with multiple tries failing instantly, which indicates an application connection failure.",P1
+"Critical service availability impacted as ""A/B split testing"" has timed out for 8+ hours straight now on host X's pod.",P1
+The 'database cluster replication' is experiencing failures causing data inconsistency in the production environment.,P1
+"Primary storage server unable to handle more than 5000 writes per second of usage in the past hour, reaching a full storage saturation status with possible impact.",P1
+Application can't connect through several ports including Z with multiple tries resulting in immediate disconnect and/or failure immediately.,P1
+Critical data integrity breach detected on cluster D since database backup fails twice.,P1
+A large number of errors are returning due to DNS resolution attempting to resolve host names to IP as they're no longer properly configured correctly.,P1
+"SQL query results were incomplete, not consistent or missing for many requests over the past few hours.",P1
+Data processing is delayed further by the presence of a 'database dead lock' scenario.,P1
+"Application server experiencing issues, application failing to start up consistently without intervention every two days which suggests critical configuration inconsistencies.",P1
+Hosts running 'Kubernetes container orchestration service' are impacted in terms of performance hit.,P1
+Error encountered while accessing logs from SFTP/SCP due to network restrictions and possible port blockages affecting visibility and access for operations.,P1
+Primary application database is experiencing connection loss issues and cannot accept any further connections.,P1
+Database disk usage percentage for backup on cluster exceeded threshold level on the 3rd consecutive occurrence impacting restore operation capability.,P1
+Application fails often due to '503 Backend received a service unavailable' error which suggests resource exhaustion of backend systems.,P1
+Network interface card for virtualized servers are showing unexpected CPU spike in recent hours likely caused by an incorrect configuration change.,P1
+Critical application service encountering authentication errors consistently as users cannot log in despite correct credentials and no apparent cause identified yet affecting all affected hosts and servers immediately after upgrade on that critical patch day so far.,P1
+Database queries are taking significantly longer than expected to process due to high disk I/O workload.,P2
+Service is currently experiencing a moderate slowdown with an average response time of 200ms.,P2
+Network latency spikes observed on 10.0.1.100 causing degradation in service performance.,P2
+Error rate jumped from 5% to 12% within the last hour affecting user experience.,P2
+Web server load spiked unexpectedly leading to higher than expected wait times for service requests.,P2
+"Instance memory usage is near 80%, indicating need for resource optimization or reduction in concurrent connections.",P2
+Request processing taking slightly longer after patch deployment causing minor degradation in service performance.,P2
+"Error rate in database connection pool has increased by 8% over the last hour, potentially impacting app performance.",P2
+Latency and error rates remain high even with decreased traffic on API server.,P2
+Average throughput has decreased due to excessive CPU usage from an unusual process spike.,P2
+Instance connectivity shows degradation as SSH access is restricted.,P2
+Request processing time has increased moderately since update of dependencies.,P2
+Memory leaks cause moderate degradation in instance availability.,P2
+"Service currently experiencing 2:1 request ratio, possibly leading to resource utilization bottleneck.",P2
+Web requests taking longer than usual while service continues running without outage.,P2
+Error handling for invalid database queries fails 45% of the time due to underlying configuration issue.,P2
+"Instance usage patterns changed, indicating inefficient scaling and need for readjustments.",P2
+Application logs show high volume of anomalies triggering degradation in service trustability.,P2
+Instance performance degraded when exceeding specified maximum concurrent connections setting.,P2
+User feedback reveals noticeable slowdown since recent version of service was deployed.,P2
+Error rate at specific query remains above acceptable threshold even with adjusted workload.,P2
+The server is experiencing IOPS (input/output operations per second) issues and slowdown as a result.,P2
+Network latency spikes observed on multiple IP addresses causing degradation in service performance.,P2
+Resource utilization shows unusual increases during typically low-traffic time slots.,P2
+Database queries are taking longer to complete than expected due to disk fragmentation issue.,P2
+High rate of failed database connections detected for one specific API endpoint due to connection pooling errors.,P2
+"Traffic from a particular country exceeds expectation, resulting in resource competition.",P2
+Application restarts necessary after increased service traffic spikes CPU usage above sustainable levels.,P2
+API gateway is encountering unusual load spikes causing noticeable degradation in request processing time.,P2
+User-defined function failing 10% of the times when retrieving database information.,P2
+Latency fluctuations occurring across the board during peak hours as per historical patterns.,P2
+Application server running low on memory requiring immediate restart or resource optimization.,P2
+"Instance exhibiting higher than normal packet loss, indicating need for tuning.",P2
+Error handling not improving despite implementing changes to mitigate known issues.,P2
+Web requests encountering delay in processing due to inefficient caching configurations.,P2
+API client failing to connect reliably due to configuration mismatch with API gateway settings.,P2
+High failure rates noted after code updates necessitating further investigation.,P2
+Database query plans require optimization as execution times exceeding 5 seconds on average.,P2
+Instance running above 75% CPU levels resulting in minor service degradation during high-traffic intervals.,P2
+"Network communication is being rerouted, which may induce temporary inconsistencies and slowdowns.",P2
+Disk space on /mnt/store is at 85% capacity threshold.,P3
+Memory usage of container abc123 has exceeded 70%.,P3
+API gateway frontend instances are experiencing 20ms request latency spikes due to increased traffic.,P3
+High CPU load on server xyz for the past hour: average utilization at 80%.,P3
+Error counts are increasing for queue processor thread t3.,P3
+"Database connection pool for instance abc is slightly under capacity, currently 0.85 used of available connections out of 500.",P3
+"HTTP error rate exceeds normal threshold, currently at 4.2% for all requests made against our service in the last hour.",P3
+CPU and memory usage on node-456 are trending up over the previous hour with average CPU load exceeding 75%.,P3
+Kubernetes cluster node pqr experiencing a high volume of soft lockups.,P3
+"Disk IOPS (input/output per second) on ec2 server mno have reached caution level, currently at 3500 IOPS in 1 minute average.",P3
+System's DNS query response delay remains elevated beyond our normal expectations of 35ms latency over the past five minutes.,P3
+"Network packet loss between AWS site region and central HQ remains steady at 1%, triggering SRE notification criteria.",P3
+We are detecting more failed login attempts than normal for a user with email 'jane.doe@company.com.',P3
+Container node klm is experiencing memory pressure.,P3
+"A potential security issue has been discovered in a running container named lmn, resulting from root exposure during build time.",P3
+Web request latency to our origin servers is averaging 80ms against the desired under 50ms goal.,P3
+A resource leak was observed occurring every 10 minutes during peak usage for queue processor thread t345 within the last two days of data available.,P3
+Average DNS query duration has increased by more than 20% over the past three days and exceeds threshold at 60ms.,P3
+"The CPU load on our webserver node uvw has been averaging above the threshold value, which suggests need to add a new host in near future.",P3
+Node vwx under pressure from an increase in its local cache usage causing disk I/O contention problems.,P3
+User error rate rose to 3.5% with last 30 minutes data over 2.0%.,P3
+"One of our cloud provider regions has been experiencing an issue causing high latency on their side impacting API processing, currently resolving itself.",P3
+Database instance's disk space was utilized at a rate of 95 percent within the time frame specified by recent logs.,P3
+User report: server yz1 unavailable as expected during scheduled downtime period from today 01 to Friday end.,P3
+"High utilization and error spike in load balancer 56k3, indicating that we may have to update its size for increased processing requirements.",P3
+API response times are currently exceeding configured threshold of 700ms for the /users endpoint.,P3
+Inbound request traffic on our ingress node for a specified service is peaking but remaining under 90% utilization and will continue monitoring for next hour.,P3
+Node xz3 memory usage has consistently been above the average since its peak load yesterday which suggests it requires more memory to reduce crashes during similar periods in the future.,P3
+"System has experienced higher failure rate of an application causing us to be on higher alert, current value at 10.50%.",P3
+A high error threshold for our payment-processing node pqr was crossed with 1.2 errors per second recorded in past hour indicating possible code change needed soon.,P3
+"High volume of traffic is observed hitting the same server causing it go from green to red, average CPU utilization by it's currently crossing 85 and should be scaled up urgently.",P3
+The current total request duration exceeded service level agreement at 1500ms as well went over configured threshold when compared to 2 minutes averages of previous days data.,P3
+"Database connection timeout error for one of your instances has occurred frequently enough (15 times) during last 3 hours to send an alert and require immediate fix, no other issues were found in logs.",P3
+We have not yet resolved the high latency observed with multiple nodes; current median response time from backend to frontend is over 50% longer than acceptable value of one second.,P3
+Network traffic on edge routers increased to caution threshold at 40 gb/s.,P3
+"Instance ""us-west-1"" database connection pool has exceeded maximum capacity, cannot accept new connections.",P1
+"Database user ""sa"" in instance ""eu-central-2"" lost credentials without valid backup.",P1
+"Cloud Storage bucket ""images-prod-123"" replication has failed for 15 minutes.",P1
+"Compute instance ""prod-server-456"" is missing OS patches and requires reboot.",P1
+"Web server ""site01-app1"" with IP ""10.0.0.20"" terminated unexpectedly, last known good snapshot is 30 minutes old.",P1
+"Database cluster ""cluster-xyz"" on instance ""us-east-2"" has lost replication to standby site for over an hour.",P1
+"API endpoint ""api-gateway-12345"" returns service unavailable due to backend service not responding in the past 10 minutes.",P1
+"Instance ""eu-west-1"" network interface is experiencing packet loss, requires investigation by networking team.",P1
+"Container cluster ""cluster-prod-456"" on instance ""us-east-4"" has pods entering kill loop and terminating.",P1
+"Database query latency on server ""dbprod01"" has increased over 5x average of the last hour.",P1
+"Instance ""us-west-1"" is running out of disk space for the operating system due to incorrect partition sizing.",P1
+"Compute instances ""prod-server-789"", ""dev-server-11111"", and more are all failing to complete tasks due to incorrect user permissions.",P1
+"Database query execution failed with unknown cause, possibly related to storage fragmentation on server ""dbusr01"".",P1
+"Server health checks indicate a high percentage of dead connections on instance ""prod-server-123"" that are taking too long to time out.",P1
+"Instance ""eu-west-2"" is encountering high network latency issues leading to delays in task completion.",P1
+"Compute instances ""us-east-1"", ""eu-central-2"" with application service ""my-prod-service"" cannot access the necessary storage volumes.",P1
+"Database tables are showing signs of data corruption on server ""prod-server-12345"".",P1
+"Instance ""us-west-1"" and other instances relying on its high latency S3 replica have failed replication for an extended period.",P1
+Cloud provider region is experiencing a power outage affecting all services within our project.,P1
+"All compute instances in the cluster experience issues with task completion related to an orphaned process consuming remaining resource utilization, identified as malicious activity 01h00m ago.",P1
+"There are no available database connections for any service on instance ""dbprod02"", which was incorrectly allocated too few replicas at launch time.",P1
+"Database table row counts are not matching expected results possibly indicating a data discrepancy between source and destination systems within our project, affecting our ability to function as intended since the last backup creation yesterday night.",P1
+"Compute instances ""us-west-1"" and other related have lost replication connections because of high latency network issues impacting application performance.",P1
+"The instance with server ID ""server_12345"" is unable to start service named ""myservice"".",P1
+"Database server 'db-sql01' is in read-only mode due to lack of disk space for the log files, which could result in data loss during maintenance periods and was reported by us since last night.",P1
+"Compute instances 'prod-server-789', 'dev-server-1234', etc. are unable to start processes named 'process-01'.",P1
+"There's a database login failure attempt with incorrect credentials from an external IP address for instance ""dbserver001"" in the past hour, violating security protocols established in project scope documents.",P1
+"All compute resources on regions ""us-west-1"", ""eu-central-2"", etc. cannot execute critical maintenance scripts due to lack of necessary access policies set to only allow user execution by groups they belong and which is failing since this morning at 10:00 UTC time for services under group prod_services group which has an invalid policy name, please update the correct values with those corresponding to 'prod' and check resource group.",P1
+"The database users in roles ""admin"" on instance ""dbusr01"" are experiencing extremely slow login times, causing project work to come to a standstill today.",P1
+Cloud provider AWS region us-east-2 is under maintenance and impacting all our service availability since beginning of the day causing us an immediate alert for impact on customers.,P1
+"Instance 'prod-server-12345' cannot access local disk partitions mounted into the OS because its disk was previously encrypted which failed, this happened recently 1h22m ago.",P1
+"The instance at server ID ""prod_server_0022"" has reached its maximum number of concurrent connections since last night with errors from database queries resulting in inability to execute new tasks for project services reliant on it which now requires us to handle such issue via an immediate system restart.",P1
+"All user login activities on server ""login-prod-12345"" is displaying login failures due to password strength policies not updated, causing our entire service unavailable since 1h25m prior this SRE alert.",P1
+"We are unable to replicate any services under the resource group ""prod"", where all tasks rely on this service for availability now experiencing severe packet loss with high latency network issues impacting region-wide availability.",P1
+"Compute instance with server ID ""dev_server_1234"" in our dev department experienced system failure without valid disk backup of operating system which is critical due to production dependent components being unable to access project resources and we urgently need the correct solution immediately to solve current situation.",P1
+"Due to incorrect configuration settings, compute instance with server ID ""prod_server_0023"" could not correctly mount necessary storage volumes since this morning but has been functioning for the past several days now without an immediate fix found despite ongoing efforts by experts from our team.",P1
+"The database cluster ""cluster-prod-12345"" in region ""eu-west-2"" is experiencing high latencies and losing query responses across all replicas, affecting availability due to replication failure.",P1
+Cloud Storage bucket 'images-dev-123' in region 'us-east-1' failed a primary backup yesterday because permissions for the service account were reset incorrectly which may cause project disruption if data inconsistencies increase rapidly in the coming period.,P1
+"Compute instances ""prod-server-789"" and other related instances rely on a common shared storage volume that is no longer mounted due to incorrect partition UUID's detected by server since last night, severely affecting the workload availability of our business applications reliant on this server.",P1
+**Instance xyz slowing down with high CPU usage (avg 80% over last 5 minutes)**,P2
+**Disk space on volume alpha is critically low (only 10GB available out of 100GB)**,P2
+**Elasticsearch node abc not responding to cluster control APIs**,P2
+**RDS instance at region zed has high latency (99th percentile at 250ms)**,P2
+**Network connectivity issue detected with one of the upstream providers (ping timeout on 90% of packets)**,P2
+**Instance def experiencing periodic crashes due to kernel panics**,P2
+"**Cache hit ratio on Memcached is extremely low, impacting performance**",P2
+**API gateway xyz reporting high error rate (5.43% over last 60 minutes)**,P2
+**High memory usage detected on containerized service abc (avg 8GB out of available 16GB)**,P2
+**DB connection pool exhausted for instance alpha due to unexpected load spike**,P2
+**One of the Kubernetes nodes at zone zyx has high pod eviction rate (33% of pods evicted in last hour)**,P2
+**MySQL replication is lagging behind by over one hour due to high write traffic**,P2
+**Redis cluster abc experiencing occasional split brain issues**,P2
+**High CPU usage on Docker container xyz causing service degradation**,P2
+**One of the data center's UPS systems has notified us of a low battery warning for its backup power supply**,P2
+**Kubernetes deployment at zone xxyy reporting unexpected restarts (2 out of last 5 deployments restarted)**,P2
+**CloudWatch alert triggered due to high latency in region pqrs**,P2
+**Instance vuw experiencing network packet loss issues with specific destination IP address**,P2
+**ZooKeeper quorum is unresponsive due to a node going missing**,P2
+**Gunicorn worker xyz has crashed and cannot be respawned due to out-of-failure attempts**,P2
+**API gateway yyzz reporting unusually high latency**,P2
+**Memory usage on Kafka broker abc is 99% of capacity leading to significant performance hit**,P2
+**DB query optimisation issue detected impacting SQL response time**,P2
+**Service instance zyzz reported stuck at processing a specific request (since last minute)**,P2
+"**Kubernetes service xyz pod reports an outOfmemory error repeatedly, slowing down service**",P2
+**Instance pqrs has high packet loss and delay issues due to bad network segment**,P2
+**Disk is running hot for volume xzzy on server vuwca (temp 78 degrees C)**,P2
+**High connection rate to the load balancer yyzz (average last 5 minutes > 20 connections per second)**,P2
+**Kubernetes pod has been running in a failed state for more than five minutes**,P2
+"**Service xyz at datacenter zed hit by high level of requests being re-routed to backup server but still getting throttled down after 15 seconds, causing intermittent slowdowns and slowness**",P2
+**API Gateway yyww is facing high latency due to backend service xyz performance degradation**,P2
+**Instance vuwxyz experiencing frequent failures on a specific endpoint (HTTP response code indicating error) with an error rate of over 95% during the last five minutes**,P2
+**Kubernetes deployment yzxz reporting high failure rate for latest deployment (over 20% of tasks failed)**,P2
+**DB is running low due to resource utilisation issues leading to high latency**,P2
+**Service running at region wxyz reports degraded performance with high 99th percentile latency (120ms over last interval)**,P2
+**Kubernetes service xyz pod has crashed repeatedly due to an unexpected failure with average interval over 90 seconds between each crash**,P2
+**Instance xwyz not able to resolve specific hostname (resolving error count = '3' out of last five minutes)**,P2
+**Unexpected growth in log data volume is leading to high disk usage and impacting performance on instance vuwvz**,P2
+**Service facing temporary slowness due to a network glitch which impacted an external provider's service that's being backed with local DNS resolution for load balancing purposes**,P2
+**Kubernetes pod experiencing connection refused errors during health checks**,P2
+"**Instance yyzz at region pqrs not responding as expected, requiring restart of instance and subsequent monitoring check-up process**",P2
+Low disk space on partition /dev/sdb1 (25%) - action required to free up space.,P3
+"Average queue size for database writes exceeded for 10 minutes (avg 100ms, threshold 120ms).",P3
+High error rate detected on interface eth0 (20% packet loss over the last hour).,P3
+Disk usage alert: /var/log/ filesystem has reached 85% capacity.,P3
+"Average response time for API endpoint '/users/search' is 250ms, exceeding defined tolerance of 200ms.",P3
+"Instance-7's CPU utilization threshold exceeded (70%), potential bottleneck developing.",P3
+High latency observed on connection to cache node C1 (~50ms).,P3
+"Disk IOPS allocation warning for /mnt/cache (allocated 9000, recommended 400).",P3
+"Low buffer cache level in RAM detected, impacting disk performance (5 MB available).",P3
+High packet loss rate on port 8080 experienced for the entire day.,P3
+Memory consumption of JVM process 'pid 1234' is exceeding the threshold value of 2 GiB.,P3
+Potential issue identified - CPU usage by user service processes above normal (30%).,P3
+"Disk write errors observed on block device '/dev/sda3', indicating possible hardware failure.",P3
+Error rate alarm triggered for the past hour: average of 5% failed writes to disk storage.,P3
+Memory usage warning for container '12345' as its consumption reached 80%.,P3
+Instance-9 running high CPU load with process 'java': avg. utilization over the last 2 minutes is at 95%.,P3
+"Filesystem /mnt/cache reported full, preventing successful writes.",P3
+Instance using a significant portion of available network bandwidth (5 GB/minute).,P3
+Container performance impacted due to excessive memory usage by its processes (avg. 256 MB/s for an hour).,P3
+System's average disk I/O wait time exceeds defined threshold (70ms over the last 10 minutes).,P3
+"Warning: JVM 'pid: xyz' running at high CPU utilization (95%), indicating potentially resource-intensive operations.",P3
+"File handle limit exceeded for user account 'user2', potential problem if not freed up.",P3
+"High load average on host detected, impacting overall system performance (5 within 1 minute).",P3
+Alert triggered - network connection 'N1-C1' packet loss rate exceeds threshold of 10% over the last few minutes.,P3
+Instance experiencing low disk space with 55 GB left for root filesystem out of 50 GB capacity (22%).,P3
+Resource utilization warning for instance: average CPU usage and request load per second exceeded.,P3
+Error rate alarm set off due to consistent failure in a database query (last 30 seconds).,P3
+Disk partition '/var/ cache' running at very low free space level (15%).,P3
+Average latency experienced on interface eth1 to cache node CA exceeds the defined tolerance of 40ms.,P3
+System resource utilization warning for current host instance (CPU and RAM over utilized).,P3
+Instance reported with high disk read latencies impacting performance (average latency is higher than threshold by a margin that may indicate poor storage efficiency).,P3
+Alert triggered - JVM process 'xyz' showing signs of OOM Killer (Out-Of-Memory) termination.,P3
+"Potential bottleneck on network connections for application 'X1', causing slow transaction times (latency averages 500ms over last day).",P3
+Warning: system's available disk space for /var directory at critical level with only 60% capacity remaining.,P3
+Instance CPU usage averaging above threshold for the last several intervals is alarming (resource saturation risk increasing daily).,P3
+"File I/O operations are showing an unusually high latency of about 200 ms on the partition under consideration (/dev/sda1), likely due to hardware failure or bottlenecking of resources like disk queue length being very high.",P3
+"High average CPU load for instance-7 observed, averaging more than allowed at a given interval.",P3
+Resource contention between threads is causing JVM 'xyz' to experience a long response time of above 500ms and CPU is under severe stress as utilization peaks beyond safety boundaries (100%).,P3
+Instance process 'xyz' showing disk I/O saturation signs as the queue length has surpassed the acceptable value greatly.,P3
+Potential problem with the file system on partition /dev/sda1: only 32 GiB out of 50 GiB available for user use.,P3
+Average latency observed between connection to database server SDB is crossing threshold by a significant margin and could be due to various factors such as network congestion or overload on the server.,P3
+"Average response time for critical web pages exceeding expected time thresholds significantly, indicating need for load balancing adjustments.",P3
+Warning: The current JVM's running memory consumption at 2 GB per second might be due to some unexpected memory leaks causing inefficiencies in resource usage.,P3
+Resource utilization warning triggered - instance's request counts are exceeding its max request rate of 100 every minute.,P3
+"File descriptor alert on an instance (max open files reached, needs adjustment).",P3
+Memory usage alarm set off as running average is above maximum limit for system.,P3
+Container running with low system call rate observed indicating inefficient execution.,P3
+Instance process 'abc' consuming disk I/O operations excessively - high rate may indicate disk failure or bottlenecking.,P3
+"JVM PID 'xyz' experiencing frequent instance crashes or errors, leading to reduced capacity utilization on the server.",P3
+CPU usage by threads in a container is running over an average of more than 50% for consecutive intervals.,P3
+"API gateway down, all services unreachable",P1
+"Multiple services down, complete outage",P1
+"Database replica lag above 60 seconds",P2
