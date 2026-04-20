@@ -3,7 +3,7 @@ sys.path.insert(0, "/Users/nourdziri/Documents/sre-ai-copilot")
 
 import json
 from openai import OpenAI
-from tools import get_logs, get_runbook
+from agent.tools import get_logs, get_runbook
 from classifier.predict import classify_alert
 
 

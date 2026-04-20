@@ -1,6 +1,4 @@
-#from rag import search_runbooks
-#from agent.rag import search_runbooks
-from rag import search_runbooks
+from agent.rag import search_runbooks
 
 def get_logs(service_name):
     logs = {
