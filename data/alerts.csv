@@ -287,3 +287,4 @@ CPU usage by threads in a container is running over an average of more than 50% 
 "Multiple services down, complete outage",P1
 "Database replica lag above 60 seconds",P2
 "Load balancer health check failing on prod",P1
+"Kubernetes node not ready, pods evicted",P1
