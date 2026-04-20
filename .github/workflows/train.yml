@@ -3,7 +3,7 @@ name: Retrain Classifier
 on:
   push:
     paths:
-      - "data/alerts.csv.dvc"
+      - "data/alerts.csv"
 
 jobs:
   train:
