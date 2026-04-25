@@ -1,0 +1,9 @@
+openai
+fastapi
+uvicorn
+slack-bolt
+python-dotenv
+chromadb
+scikit-learn
+prometheus-fastapi-instrumentator
+pydantic

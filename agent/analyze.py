@@ -1,17 +1,16 @@
-import sys
-sys.path.insert(0, "/Users/nourdziri/Documents/sre-ai-copilot")
-
-import json
+import os
 from openai import OpenAI
 from agent.tools import get_logs, get_runbook
-from classifier.predict import classify_alert
 
-
-from classifier.predict import classify_alert
+try:
+    from classifier.predict import classify_alert
+except ImportError:
+    def classify_alert(alert):
+        return "P2"
 
 client = OpenAI(
-    base_url='http://localhost:11434/v1/',
-    api_key='ollama',
+    base_url=os.environ.get("OLLAMA_HOST", "http://localhost:11434") + "/v1/",
+    api_key="ollama",
 )
 
 def analyze_alert(alert):

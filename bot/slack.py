@@ -1,6 +1,3 @@
-import sys
-sys.path.insert(0, "/Users/nourdziri/Documents/sre-ai-copilot")
-
 import os
 from dotenv import load_dotenv
 
