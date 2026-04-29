@@ -22,11 +22,11 @@ def analyze_alert(request):
     # Pre-fetch data ourselves instead of relying on the LLM to call tools
     logs = get_logs(request.service)
     runbook = get_runbook(alert_text)
-
+    content= os.environ.get("SYSTEM_PROMPT", "You are an SRE assistant. Analyze the alert using the logs and runbook provided.")
     messages = [
         {
             "role": "system",
-            "content": "You are an SRE assistant. Analyze the alert using the logs and runbook provided."
+            "content": content
         },
         {
             "role": "user",
@@ -35,7 +35,7 @@ def analyze_alert(request):
     ]
 
     response = client.chat.completions.create(
-        model="llama3.1:8b",
+        model=os.environ.get("LLM_MODEL", "llama3.1:8b"),
         messages=messages
     )
 
