@@ -3,12 +3,17 @@ from agent.models import AlertRequest
 
 from openai import OpenAI
 from agent.tools import get_logs, get_runbook
+import time 
+
+max_retries = 3
 
 try:
     from classifier.predict import classify_alert
 except ImportError:
     def classify_alert(alert):
         return "P2"
+    
+
 
 client = OpenAI(
     base_url=os.environ.get("OLLAMA_HOST", "http://localhost:11434") + "/v1/",
@@ -34,10 +39,19 @@ def analyze_alert(request):
         }
     ]
 
-    response = client.chat.completions.create(
-        model=os.environ.get("LLM_MODEL", "llama3.1:8b"),
-        messages=messages
-    )
+    for attempt in range(max_retries):
+        try:
+            response = client.chat.completions.create(
+                model=os.environ.get("LLM_MODEL", "llama3.1:8b"),
+                messages=messages,
+                timeout=30
+            )
+            break  # success, exit loop
+        except Exception as e:
+            if attempt < max_retries - 1:
+                time.sleep(2)  # wait 2 seconds before retrying
+                continue
+            return f"Severity: {severity}\n\nLLM unavailable after {max_retries} attempts: {str(e)}"
 
     #return response.choices[0].message.content
     return f"Severity: {severity}\n\n{response.choices[0].message.content}"
