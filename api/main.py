@@ -11,3 +11,7 @@ Instrumentator().instrument(app).expose(app)
 def analyze(request: AlertRequest):
     result = analyze_alert(request)
     return {"analysis": result}
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
