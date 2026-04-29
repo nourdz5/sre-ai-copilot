@@ -166,6 +166,7 @@ shellingham==1.5.4
 shortuuid==1.0.13
 shtab==1.8.0
 six==1.17.0
+slowapi==0.1.9
 skops==0.13.0
 slack_bolt==1.28.0
 slack_sdk==3.41.0
