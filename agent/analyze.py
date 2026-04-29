@@ -1,4 +1,6 @@
 import os
+from agent.models import AlertRequest
+
 from openai import OpenAI
 from agent.tools import get_logs, get_runbook
 
@@ -13,12 +15,13 @@ client = OpenAI(
     api_key="ollama",
 )
 
-def analyze_alert(alert):
-    severity = classify_alert(alert)
+def analyze_alert(request):
+    alert_text = f"{request.name} on {request.service}"
+    severity = classify_alert(alert_text)
 
     # Pre-fetch data ourselves instead of relying on the LLM to call tools
-    logs = get_logs("payments-api")
-    runbook = get_runbook(alert)
+    logs = get_logs(request.service)
+    runbook = get_runbook(alert_text)
 
     messages = [
         {
@@ -27,7 +30,7 @@ def analyze_alert(alert):
         },
         {
             "role": "user",
-            "content": f"Alert: {alert}\n\nLogs:\n{logs}\n\nRunbook:\n{runbook}"
+            "content": f"Alert: {alert_text}\n\nLogs:\n{logs}\n\nRunbook:\n{runbook}"
         }
     ]
 
@@ -41,5 +44,9 @@ def analyze_alert(alert):
 
 
 if __name__ == "__main__":
-    alert = "HighMemoryUsage on service payments-api, memory at 95%"
-    print(analyze_alert(alert))
+    request = AlertRequest(
+        name="HighMemoryUsage",
+        service="payments-api",
+        environment="production"
+    )
+    print(analyze_alert(request))
