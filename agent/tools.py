@@ -1,13 +1,59 @@
 from agent.rag import search_runbooks
+import os
+import subprocess
+from elasticsearch import Elasticsearch
 
-def get_logs(service_name):
+
+
+def get_logs_from_mock(service_name):
     logs = {
         "payments-api": "ERROR OOMKilled: container exceeded memory limit",
         "auth-service": "ERROR Connection timeout to redis"
     }
     return logs.get(service_name, "No logs found")
-    # Placeholder implementation - replace with actual log retrieval logic
-    #return f"Logs for {service_name}"
+
+
+def get_logs_from_kubernetes(service_name):
+    namespace = os.environ.get("KUBE_NAMESPACE", "default")
+    context = os.environ.get("KUBE_CONTEXT", "minikube")
+    result = subprocess.run(
+        ["kubectl", "logs", f"deployment/{service_name}",
+         "--tail=50", "-n", namespace, "--context", context],
+        capture_output=True, text=True
+    )
+    return result.stdout or "No logs found"
+
+def get_logs_from_elasticsearch(service_name):
+    try:
+        es = Elasticsearch(
+            os.environ.get("ES_HOST", "http://localhost:9200"),
+            basic_auth=(
+                os.environ.get("ES_USER", ""),
+                os.environ.get("ES_PASSWORD", "")
+            )
+        )
+             
+        results = es.search(
+            index=os.environ.get("ES_INDEX", "logs"),
+            query={"match": {"service": service_name}},
+            size=50
+        )
+        hits = results["hits"]["hits"]
+        return "\n".join([h["_source"]["message"] for h in hits])
+    
+    except Exception as e:
+        return f"Elasticsearch unavailable: {str(e)}"
+
+
+def get_logs(service_name):
+    backend = os.environ.get("LOG_BACKEND", "mock")
+    
+    if backend == "elasticsearch":
+        return get_logs_from_elasticsearch(service_name)
+    elif backend == "kubernetes":
+        return get_logs_from_kubernetes(service_name)
+    else:
+        return get_logs_from_mock(service_name)
 
 # def get_runbook(alert_name):
 #     runbooks = {
