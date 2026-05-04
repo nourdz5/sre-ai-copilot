@@ -3,6 +3,20 @@ import os
 import subprocess
 from elasticsearch import Elasticsearch
 
+import re
+
+def scrub_logs(logs):
+    # emails
+    logs = re.sub(r'[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', '[EMAIL]', logs)
+    # bearer tokens
+    logs = re.sub(r'Bearer\s+[a-zA-Z0-9._-]+', '[TOKEN]', logs)
+    # API keys (long alphanumeric strings)
+    logs = re.sub(r'[a-zA-Z0-9]{32,}', '[REDACTED]', logs)
+    # IP addresses
+    logs = re.sub(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b', '[IP]', logs)
+    # credit cards
+    logs = re.sub(r'\b\d{4}[- ]?\d{4}[- ]?\d{4}[- ]?\d{4}\b', '[CARD]', logs)
+    return logs
 
 
 def get_logs_from_mock(service_name):
@@ -49,11 +63,13 @@ def get_logs(service_name):
     backend = os.environ.get("LOG_BACKEND", "mock")
     
     if backend == "elasticsearch":
-        return get_logs_from_elasticsearch(service_name)
+        logs= get_logs_from_elasticsearch(service_name)
     elif backend == "kubernetes":
-        return get_logs_from_kubernetes(service_name)
+        logs=get_logs_from_kubernetes(service_name)
     else:
-        return get_logs_from_mock(service_name)
+        logs=get_logs_from_mock(service_name)
+        
+    return scrub_logs(logs)
 
 # def get_runbook(alert_name):
 #     runbooks = {
