@@ -6,6 +6,7 @@ from prometheus_fastapi_instrumentator import Instrumentator
 from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.util import get_remote_address
 from slowapi.errors import RateLimitExceeded
+from bot.notify import post_to_slack
 import time 
 import logging 
 
@@ -56,5 +57,6 @@ def webhook(payload: dict, request: Request):
             namespace=labels.get("namespace", None)
         )
         result = analyze_alert(alert_request)
+        post_to_slack(result)
         logging.info(f"webhook alert={alert_request.name} service={alert_request.service}")
     return {"status": "received"}
