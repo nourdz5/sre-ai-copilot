@@ -43,3 +43,18 @@ def analyze(alert: AlertRequest, request: Request , api_key: str = Depends(verif
 @app.get("/health")
 def health():
     return {"status": "ok"}
+
+@app.post("/webhook")
+def webhook(payload: dict, request: Request):
+    for alert in payload.get("alerts", []):
+        labels = alert.get("labels", {})
+        alert_request = AlertRequest(
+            name=labels.get("alertname", "UnknownAlert"),
+            service=labels.get("service", "unknown"),
+            environment=labels.get("environment", "production"),
+            cluster=labels.get("cluster", None),
+            namespace=labels.get("namespace", None)
+        )
+        result = analyze_alert(alert_request)
+        logging.info(f"webhook alert={alert_request.name} service={alert_request.service}")
+    return {"status": "received"}
