@@ -72,14 +72,26 @@ with mlflow.start_run():
 
     trainer.train()
 
-    # Log metrics to MLflow
+    # Log metrics and params to MLflow
     metrics = trainer.evaluate()
     mlflow.log_metrics(metrics)
     mlflow.log_param("epochs", 3)
     mlflow.log_param("model", "distilbert-base-uncased")
+    mlflow.log_param("train_size", len(train_texts))
+    mlflow.log_param("test_size", len(test_texts))
+    mlflow.log_param("num_labels", 3)
 
-    # Save model
+    # Save model locally
     model.save_pretrained("./classifier/model")
     tokenizer.save_pretrained("./classifier/model")
+
+    # Register model in MLflow model registry
+    mlflow.pytorch.log_model(
+        model,
+        artifact_path="model",
+        registered_model_name="alert-classifier"
+    )
+
     print("Model saved to classifier/model")
     print(f"Eval loss: {metrics['eval_loss']:.4f}")
+    print(f"Run ID: {mlflow.active_run().info.run_id}")

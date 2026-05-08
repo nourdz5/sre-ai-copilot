@@ -3,15 +3,55 @@ name: Retrain Classifier
 on:
   push:
     paths:
-      - "data/alerts.csv"
+      - "data/alerts.csv"       # retrain when data changes
+  schedule:
+    - cron: "0 2 * * 1"        # also run every Monday at 2am to check for drift
+  workflow_dispatch:            # allow manual trigger
 
 jobs:
-  train:
+  drift-check:
     runs-on: ubuntu-latest
+    outputs:
+      drift: ${{ steps.check.outputs.drift }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Pull DVC data
+        run: pip install dvc && dvc pull
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Check for drift
+        id: check
+        run: |
+          python monitoring/drift.py && echo "drift=false" >> $GITHUB_OUTPUT || echo "drift=true" >> $GITHUB_OUTPUT
+
+      - name: Upload drift report
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-report
+          path: monitoring/drift_report.html
+
+  train:
+    runs-on: ubuntu-latest
+    needs: drift-check
+    # run if: data changed (push trigger) OR drift detected
+    if: github.event_name == 'push' || needs.drift-check.outputs.drift == 'true'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Pull DVC data
+        run: pip install dvc && dvc pull
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -23,6 +63,9 @@ jobs:
 
       - name: Train classifier
         run: python classifier/train.py
+
+      - name: Evaluate and promote
+        run: python classifier/promote.py
 
       - name: Upload model artifact
         uses: actions/upload-artifact@v4

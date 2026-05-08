@@ -1,11 +1,13 @@
 import pandas as pd
+import sys
 from evidently.report import Report
 from evidently.metric_preset import DataDriftPreset
 
 def check_drift(reference_path="data/alerts.csv", current_alerts=None):
-    reference = pd.read_csv(reference_path)
+    reference = pd.read_csv(reference_path, on_bad_lines="skip")
 
     if current_alerts is None:
+        # simulate current data as recent slice for testing
         current = reference.tail(50).copy()
     else:
         current = pd.DataFrame({
@@ -28,4 +30,6 @@ def check_drift(reference_path="data/alerts.csv", current_alerts=None):
     return drift_detected
 
 if __name__ == "__main__":
-    check_drift()
+    drift = check_drift()
+    # exit code 1 signals drift to CI — triggers retraining workflow
+    sys.exit(1 if drift else 0)

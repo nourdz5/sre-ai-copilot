@@ -39,9 +39,15 @@ _, test_texts, _, test_labels = train_test_split(
     texts, encoded_labels, test_size=0.2, random_state=42
 )
 
-# Compare new model vs current model
-new_model_path = "./classifier/output/checkpoint-87"
+# Find latest checkpoint dynamically instead of hardcoding
+import glob
+checkpoints = sorted(glob.glob("./classifier/output/checkpoint-*"), key=os.path.getmtime)
+if not checkpoints:
+    print("No checkpoint found in classifier/output — run train.py first")
+    exit(1)
+new_model_path = checkpoints[-1]
 current_model_path = "./classifier/model"
+print(f"Comparing new checkpoint: {new_model_path}")
 
 print("Evaluating current model...")
 current_accuracy = evaluate_model(current_model_path, test_texts, test_labels)

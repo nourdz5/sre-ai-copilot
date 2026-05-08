@@ -136,36 +136,70 @@ sre-ai-copilot/
 
 ## Build Plan
 
-### Phase 1 - Week 1: AI Agent (v1.0)
-Focus: Get a working agent deployed. Skip MLOps for now.
+### Phase 1 - Security & Hardening ✅ DONE
+Focus: Make the agent production-shaped before adding intelligence.
 
-- [ ] Day 1: Setup + first LLM call via Ollama
-- [ ] Day 2: Tool calling (agent calls get_logs and get_runbook automatically)
-- [ ] Day 3: RAG with ChromaDB (agent searches real runbook files)
-- [ ] Day 4: FastAPI endpoint (agent served via HTTP)
-- [ ] Day 5: Slack bot (/oncall command wired to agent)
-- [ ] Day 6: Docker + docker-compose
-- [ ] Day 7: Deploy to k8s with Helm + push to GitHub
+- [x] Pluggable log backends (mock / kubernetes / elasticsearch)
+- [x] PII scrubbing before logs reach the LLM
+- [x] Input validation with Pydantic validators
+- [x] API authentication (X-API-Key header)
+- [x] Rate limiting (10 req/min per IP via slowapi)
+- [x] Audit logging (alert name, service, duration)
+- [x] Prometheus webhook endpoint
+- [x] RBAC least-privilege service account (dedicated sre-copilot namespace)
+- [x] Container scanning in CI (Trivy — CRITICAL/HIGH, ignore unfixed)
+- [ ] TLS/HTTPS — moved to final phase (not needed until API exposed publicly)
 
-### Phase 2 - Week 2-3: MLOps Layer (v2.0)
+### Phase 2 - Smarter Agent ✅ DONE
+Focus: LLM drives the investigation instead of being passive.
+
+- [x] Tool calling — LLM decides what to fetch instead of always fetching everything
+- [x] LLM-as-judge — second LLM reviews answer before it reaches the user
+- [x] Conversation memory — past incidents stored in ChromaDB, retrieved for similar alerts
+
+#### What is missing for production (added to Phase 4)
+- [ ] Memory feedback loop — mark incidents as resolved/wrong so bad advice doesn't persist
+- [ ] Memory TTL — expire old incidents so stale context doesn't mislead the agent
+- [ ] Memory deduplication — don't store duplicate incidents from repeated alerts
+- [ ] Judge ground truth — evaluate against real resolved incidents, not just logs
+- [ ] Tool calling reliability — needs a better model (GPT-4 / Claude) for reliable structured output
+- [ ] Integration tests — verify end-to-end flow with known alerts and expected output format
+
+### Phase 3 - MLOps Layer
 Focus: Add real ML training pipeline on top of the agent.
 
-- [ ] Generate labeled training data (200-300 fake alerts with labels)
-- [ ] Fine-tune distilbert classifier with HuggingFace
 - [ ] Track experiments with MLflow
 - [ ] Version training data with DVC
-- [ ] Wire classifier into the agent pipeline
 - [ ] GitHub Actions CI: train → evaluate → promote on data push
-
-### Phase 3 - Week 4-5: Production Ready (v3.0)
-Focus: Monitoring, drift detection, polish.
-
 - [ ] Add Evidently drift detection on incoming alerts
 - [ ] Auto-trigger retraining when drift detected
+
+### Phase 4 - Production Hardening
+Focus: Close the gaps identified in Phase 2 + observability.
+
+- [ ] Memory feedback loop (human marks incidents as resolved/wrong)
+- [ ] Memory TTL and deduplication
+- [ ] Judge ground truth dataset
+- [ ] Integration tests for agent pipeline
 - [ ] Prometheus metrics on FastAPI app
 - [ ] Grafana dashboard
-- [ ] Clean README with architecture diagram
-- [ ] Demo GIF of Slack bot working
+- [ ] TLS/HTTPS for API
+
+### Phase 5 - LangChain/LangGraph Migration
+Focus: Replace manual agent loop with proper framework.
+
+- [ ] Migrate tool calling to LangChain tools
+- [ ] Migrate memory to LangGraph state
+- [ ] Migrate judge to LangChain evaluation chain
+- [ ] Compare: what the framework gives vs what we built manually
+
+### Phase 6 - Self-Healing (with approval)
+Focus: Agent proposes fixes, human approves, agent executes.
+
+- [ ] Agent suggests kubectl commands based on analysis
+- [ ] Slack approval flow (approve/reject buttons)
+- [ ] Agent executes approved commands via kubernetes backend
+- [ ] Full audit trail of every action taken
 
 ---
 
