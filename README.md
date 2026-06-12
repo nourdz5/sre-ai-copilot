@@ -23,26 +23,37 @@ Relevant logs: ERROR OOMKilled: container exceeded memory limit
 
 ```mermaid
 flowchart TD
-    A[Slack /oncall command] --> B[Slack Bot\nslack-bolt]
+    A[Slack /oncall command] --> B[Slack Bot]
     B --> C[FastAPI /analyze]
-    C --> D[distilbert Classifier\nPredicts P1 / P2 / P3]
-    C --> E[RAG Pipeline\nChromaDB + sentence-transformers]
-    C --> F[LLM Agent\nOllama llama3.1:8b]
+    C --> D[distilbert Classifier]
+    C --> E[RAG Pipeline]
+    C --> F[LLM Agent]
     E --> F
-    D --> G[Slack Reply to Engineer]
-    F --> G
-
-    subgraph MLOps Pipeline
-        H[alerts.csv\nDVC versioned] --> I[GitHub Actions\nauto-retrain on data change]
-        I --> J[MLflow\nexperiment tracking]
-        J --> K[Evidently\ndrift detection]
-    end
-
-    subgraph Observability
-        L[Prometheus] --> M[Grafana]
-        C --> L
-    end
+    F --> G[LLM Judge]
+    G --> H[Slack Reply]
+    D --> H
+    C --> I[Prometheus metrics]
+    I --> J[Grafana]
 ```
+
+---
+
+## Features
+
+| Feature | Details |
+|---|---|
+| Severity classification | Fine-tuned distilbert — predicts P1/P2/P3 in ~50ms |
+| RAG runbook retrieval | ChromaDB + sentence-transformers over 20+ runbooks |
+| LLM analysis | Ollama llama3.1:8b — local, no paid APIs |
+| LLM Judge | Second LLM call evaluates every analysis: pass/fail + confidence score |
+| PII scrubbing | Strips emails, tokens, IPs, credit cards from logs before sending to LLM |
+| Prometheus webhook | `/webhook` receives Alertmanager alerts and auto-posts to Slack |
+| Rate limiting | 10 requests/minute per IP |
+| API key auth | `X-API-Key` header authentication |
+| Audit logging | Every request logged to `audit.log` |
+| Drift detection | Evidently monitors incoming alert distribution vs training data |
+| Auto-retraining | GitHub Actions retrains classifier when data changes or drift detected |
+| Container security | Trivy scans Docker image for CRITICAL/HIGH CVEs on every push |
 
 ---
 
@@ -60,7 +71,7 @@ flowchart TD
 | API | FastAPI |
 | Slack Bot | Slack Bolt SDK |
 | Metrics | Prometheus + Grafana |
-| CI/CD | GitHub Actions |
+| CI/CD | GitHub Actions (retrain + Trivy scan) |
 | Deployment | Docker + Kubernetes/Helm |
 
 ---
@@ -69,14 +80,13 @@ flowchart TD
 
 ```mermaid
 flowchart LR
-    A[Raw Alert Data] -->|DVC versioned| B[alerts.csv\n280+ labeled examples]
-    B -->|push to git| C[GitHub Actions\ntrain.yml]
-    C --> D[distilbert fine-tune]
-    D --> E[MLflow\nlog metrics + model]
-    E -->|if accuracy improves| F[Promote to Production]
-    F --> G[Inference Server]
-    G -->|predictions| H[Evidently\ndrift detection]
-    H -->|drift detected| C
+    A[alerts.csv] --> B[GitHub Actions]
+    B --> C[distilbert fine-tune]
+    C --> D[MLflow tracking]
+    D --> E[Promote to Production]
+    E --> F[Inference Server]
+    F --> G[Evidently drift detection]
+    G --> B
 ```
 
 - Training data versioned with DVC — full reproducibility
@@ -115,7 +125,8 @@ sre-ai-copilot/
 │   └── rbac.yml            # Kubernetes RBAC for the bot
 ├── .github/
 │   └── workflows/
-│       └── train.yml       # Auto-retrain CI pipeline
+│       ├── train.yml       # Auto-retrain + drift check pipeline
+│       └── trivy.yml       # Container vulnerability scan (CRITICAL/HIGH CVEs)
 └── docker-compose.yml      # Full stack: API + Bot + Prometheus + Grafana
 ```
 
@@ -184,5 +195,8 @@ The `drift-check` and `train` jobs in GitHub Actions include a `dvc pull` step. 
 
 - **Local LLM (Ollama)** — no API costs, no data leaving the machine, production-swappable to any OpenAI-compatible endpoint
 - **Separate classifier + LLM** — fast severity triage (distilbert, ~50ms) happens before the slow LLM call, so P1 alerts are flagged immediately
+- **LLM Judge** — a second LLM call evaluates every analysis for relevance and actionability, catching hallucinated or vague responses before they reach the engineer
+- **PII scrubbing before LLM** — logs are sanitized (emails, tokens, IPs, credit cards) before being sent to the model, preventing data leakage
 - **DVC for data versioning** — any past experiment is fully reproducible; retraining is deterministic
 - **Drift-triggered retraining** — model stays accurate as alert patterns evolve without manual intervention
+- **Trivy in CI** — container image scanned for CRITICAL/HIGH CVEs on every push, blocking deployment of vulnerable images
