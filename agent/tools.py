@@ -123,3 +123,4 @@ def run_tool(tool_name, tool_input):
     elif tool_name == "get_runbook":
         alert_name = tool_input.get("alert_name") or list(tool_input.values())[0]
         return get_runbook(alert_name)
+    return f"Unknown tool: {tool_name}"

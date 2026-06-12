@@ -5,5 +5,8 @@ __pycache__/
 .env
 chroma_db/
 mlruns/
+mlflow.db
 classifier/model/
 classifier/output/
+monitoring/drift_report.html
+.DS_Store

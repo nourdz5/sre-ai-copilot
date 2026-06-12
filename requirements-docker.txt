@@ -2,8 +2,11 @@ openai
 fastapi
 uvicorn
 slack-bolt
+slack-sdk
 python-dotenv
 chromadb
 scikit-learn
 prometheus-fastapi-instrumentator
 pydantic
+slowapi
+elasticsearch

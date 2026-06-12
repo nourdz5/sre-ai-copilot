@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, "/Users/nourdziri/Documents/sre-ai-copilot")
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from openai import OpenAI
 import csv
@@ -26,7 +27,9 @@ Return ONLY the alert messages, one per line, no numbering, no extra text."""
 
 with open("data/alerts.csv", "a", newline="") as f:
     writer = csv.writer(f)
-    for severity in ["P1", "P2", "P3"]:
+    for severity in ["P1", "P2", "P3"]: # Generate 60 alerts for each severity level P1, P2, P3 , change to P1 only if you want to focus on critical alerts P1 
+        #P1 severity means: service is down or data loss, P2 means service degraded but running, P3 means warning, nothing urgent
+        # model generates more P1 but has some imbalance for P3, you can adjust the prompt to generate more P3 if needed to improve its performance on that class
         print(f"Generating {severity} alerts...")
         alerts = generate_alerts(severity, 60)
         for alert in alerts:
