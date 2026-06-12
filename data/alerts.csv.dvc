@@ -1,5 +1,0 @@
-outs:
-- md5: 8b59c280402170e44722485a90097b56
-  size: 65552
-  hash: md5
-  path: alerts.csv

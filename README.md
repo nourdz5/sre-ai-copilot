@@ -174,6 +174,12 @@ Grafana: `http://localhost:3000`
 
 ---
 
+## CI/CD Notes
+
+The `drift-check` and `train` jobs in GitHub Actions include a `dvc pull` step. This step will fail in CI because no DVC remote storage is configured (the project runs fully locally with no cloud storage). In a production setup, this would point to an S3 or GCS bucket. The rest of the pipeline (drift detection, training, evaluation) works correctly once data is available locally.
+
+---
+
 ## Key Design Decisions
 
 - **Local LLM (Ollama)** — no API costs, no data leaving the machine, production-swappable to any OpenAI-compatible endpoint
