@@ -65,7 +65,12 @@ def analyze_alert(request):
                         verdict = judge_analysis(alert_text, logs, message.content)
                         store_incident(alert_text, severity, message.content, verdict["verdict"])
                         verdict_line = f"Judge: {verdict['verdict'].upper()} (confidence: {verdict['confidence']}) — {verdict['reason']}"
-                        return f"Severity: {severity}\n\n{message.content}\n\n---\n{verdict_line}"
+                        #return f"Severity: {severity}\n\n{message.content}\n\n---\n{verdict_line}"
+                        return {
+                            "text": f"Severity: {severity}\n\n{message.content}\n\n---\n{verdict_line}",
+                            "severity": severity,
+                            "verdict": verdict["verdict"]
+                        }
 
                     # fallback — model didn't use tool calls properly, pre-fetch everything
                     logs = get_logs(request.service)
@@ -90,13 +95,21 @@ def analyze_alert(request):
                         "content": tool_result
                     })
 
-            return f"Severity: {severity}\n\nAgent reached max tool calls without a final answer."
-
+            #return f"Severity: {severity}\n\nAgent reached max tool calls without a final answer."
+            return {
+                "text": f"Severity: {severity}\n\nAgent reached max tool calls without a final answer.",
+                "severity": severity,
+                "verdict": "unknown"
+            }
         except Exception as e:
             if attempt < max_retries - 1:
                 time.sleep(2)
                 continue
-            return f"Severity: {severity}\n\nLLM unavailable after {max_retries} attempts: {str(e)}"
+            return {
+                "text": f"Severity: {severity}\n\nLLM unavailable after {max_retries} attempts: {str(e)}",
+                "severity": severity,
+                "verdict": "unknown"
+            }
 
 
 if __name__ == "__main__":

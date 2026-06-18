@@ -9,6 +9,24 @@ from slowapi.errors import RateLimitExceeded
 from bot.notify import post_to_slack
 import time 
 import logging 
+from prometheus_client import Counter, Histogram
+
+severity_counter = Counter(
+    "alert_severity_total",
+    "Number of alerts classified by severity",
+    labelnames=["severity"]
+)
+
+judge_counter = Counter(
+    "judge_verdict_total",
+    "Number of judge verdicts",
+    labelnames=["verdict"]
+)
+
+analysis_duration = Histogram(
+    "analysis_duration_seconds",
+    "Time taken to analyze an alert end to end"
+)
 
 logging.basicConfig(
     filename="audit.log",
@@ -37,9 +55,14 @@ def verify_api_key(x_api_key: str = Header(...)):
 def analyze(alert: AlertRequest, request: Request , api_key: str = Depends(verify_api_key)):
     start = time.time()
     result = analyze_alert(alert)
+    severity_counter.labels(severity=result["severity"]).inc()
+    judge_counter.labels(verdict=result["verdict"]).inc()
     duration = round(time.time() - start, 2)
+    analysis_duration.observe(duration)
+    
     logging.info(f"alert={alert.name} service={alert.service} env={alert.environment} duration={duration}s")
-    return {"analysis": result}
+    return {"analysis": result["text"]}
+
 
 @app.get("/health")
 def health():
@@ -57,6 +80,6 @@ def webhook(payload: dict, request: Request):
             namespace=labels.get("namespace", None)
         )
         result = analyze_alert(alert_request)
-        post_to_slack(result)
+        post_to_slack(result["text"])
         logging.info(f"webhook alert={alert_request.name} service={alert_request.service}")
     return {"status": "received"}
