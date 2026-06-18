@@ -1,0 +1,7 @@
+route:
+  receiver: sre-copilot
+
+receivers:
+  - name: sre-copilot
+    webhook_configs:
+      - url: http://api:8000/webhook

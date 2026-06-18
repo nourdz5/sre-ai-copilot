@@ -1,0 +1,11 @@
+groups:
+  - name: sre-copilot
+    rules:
+      - alert: HighMemoryUsage
+        expr: container_memory_usage_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          service: payments-api
+        annotations:
+          summary: "High memory usage detected"
