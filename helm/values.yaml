@@ -1,0 +1,87 @@
+image:
+  repository: sre-ai-copilot
+  tag: latest
+  pullPolicy: IfNotPresent
+
+api:
+  replicaCount: 1
+  port: 8000
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+  livenessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    initialDelaySeconds: 10
+    periodSeconds: 30
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 8000
+    initialDelaySeconds: 5
+    periodSeconds: 10
+
+bot:
+  enabled: true
+  replicaCount: 1
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 200m
+      memory: 256Mi
+
+inference:
+  engine: ollama
+  ollama:
+    image: ollama/ollama
+    tag: latest
+    model: llama3.1:8b
+    port: 11434
+  vllm:
+    image: vllm/vllm-openai
+    tag: latest
+    model: meta-llama/Llama-3.1-8B-Instruct
+    port: 8000
+    gpu: true
+
+config:
+  ollamaHost: http://ollama:11434
+  llmModel: llama3.1:8b
+  systemPrompt: "You are an SRE assistant. Use the available tools to fetch logs and runbooks, then analyze the alert."
+
+secret:
+  apiKey: ""
+  slackBotToken: ""
+  slackAppToken: ""
+
+service:
+  type: ClusterIP
+  port: 8000
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 80
+
+serviceAccount:
+  create: false
+  name: ""
+
+podAnnotations: {}
+podLabels: {}
+imagePullSecrets: []
+podSecurityContext: {}
+securityContext: {}
+nodeSelector: {}
+affinity: {}
+tolerations: []
+volumeMounts: []
+volumes: []

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    {{- include "helm.labels" . | nindent 4 }}
+data:
+  OLLAMA_HOST: {{ .Values.config.ollamaHost | quote }}
+  LLM_MODEL: {{ .Values.config.llmModel | quote }}
+  SYSTEM_PROMPT: {{ .Values.config.systemPrompt | quote }}
